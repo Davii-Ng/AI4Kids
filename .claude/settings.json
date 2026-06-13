@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn add *)",
+      "Bash(corepack enable *)",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(Test-Path \"d:/github/AI4Kids/backend/.env\")",
+      "Bash(npx prisma *)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 19036)",
+      "Bash(npx tsx *)",
+      "Bash(awk '{print $5}')",
+      "Bash(xargs taskkill //F //PID)"
+    ]
+  }
+}

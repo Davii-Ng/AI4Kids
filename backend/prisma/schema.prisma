@@ -47,21 +47,24 @@ model StudentAlias {
 }
 
 model MissionAttempt {
-  id                  String       @id @default(cuid())
-  classroomId         String
-  missionId           String
-  studentAliasId      String
-  attemptedBeforeAi   Boolean      @default(false)
-  checkedClaim        Boolean      @default(false)
-  protectedPrivacy    Boolean      @default(false)
-  selectedHumanHelp   Boolean      @default(false)
-  revisedResult       Boolean      @default(false)
-  disclosedAiRole     Boolean      @default(false)
-  score               Int          @default(0)
-  status              String       @default("Needs guided practice")
-  completedAt         DateTime?
-  createdAt           DateTime     @default(now())
-  classroom           Classroom    @relation(fields: [classroomId], references: [id])
-  mission             Mission      @relation(fields: [missionId], references: [id])
-  studentAlias        StudentAlias @relation(fields: [studentAliasId], references: [id])
+  id                    String       @id @default(cuid())
+  classroomId           String
+  missionId             String
+  studentAliasId        String
+  currentStep           Int          @default(0)
+  attemptedBeforeAi     Boolean      @default(false)
+  aiRole                String?
+  checkedClaim          Boolean      @default(false)
+  selectedCredibleSource Boolean     @default(false)
+  protectedPrivacy      Boolean      @default(false)
+  selectedHumanHelp     Boolean      @default(false)
+  revisedResult         Boolean      @default(false)
+  disclosedAiRole       Boolean      @default(false)
+  score                 Int          @default(0)
+  status                String       @default("Needs guided practice")
+  completedAt           DateTime?
+  createdAt             DateTime     @default(now())
+  classroom             Classroom    @relation(fields: [classroomId], references: [id])
+  mission               Mission      @relation(fields: [missionId], references: [id])
+  studentAlias          StudentAlias @relation(fields: [studentAliasId], references: [id])
 }
