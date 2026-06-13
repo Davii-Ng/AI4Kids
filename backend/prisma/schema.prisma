@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id         String      @id @default(cuid())
+  name       String
+  createdAt  DateTime    @default(now())
+  classrooms Classroom[]
+}
+
+model Classroom {
+  id             String           @id @default(cuid())
+  code           String           @unique
+  name           String
+  organizationId String
+  createdAt      DateTime         @default(now())
+  organization   Organization     @relation(fields: [organizationId], references: [id])
+  students       StudentAlias[]
+  attempts       MissionAttempt[]
+}
+
+model Mission {
+  id          String           @id
+  title       String
+  ageBand     String
+  durationMin Int
+  isScripted  Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  attempts    MissionAttempt[]
+}
+
+model StudentAlias {
+  id          String           @id @default(cuid())
+  alias       String
+  classroomId String
+  createdAt   DateTime         @default(now())
+  classroom   Classroom        @relation(fields: [classroomId], references: [id])
+  attempts    MissionAttempt[]
+
+  @@unique([classroomId, alias])
+}
+
+model MissionAttempt {
+  id                  String       @id @default(cuid())
+  classroomId         String
+  missionId           String
+  studentAliasId      String
+  attemptedBeforeAi   Boolean      @default(false)
+  checkedClaim        Boolean      @default(false)
+  protectedPrivacy    Boolean      @default(false)
+  selectedHumanHelp   Boolean      @default(false)
+  revisedResult       Boolean      @default(false)
+  disclosedAiRole     Boolean      @default(false)
+  score               Int          @default(0)
+  status              String       @default("Needs guided practice")
+  completedAt         DateTime?
+  createdAt           DateTime     @default(now())
+  classroom           Classroom    @relation(fields: [classroomId], references: [id])
+  mission             Mission      @relation(fields: [missionId], references: [id])
+  studentAlias        StudentAlias @relation(fields: [studentAliasId], references: [id])
+}
